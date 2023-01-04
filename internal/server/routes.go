@@ -7,8 +7,18 @@ import (
 )
 
 func RegisterRoutes(router *gin.Engine, conf *config.Config) {
+
 	v1 := router.Group(config.ApiUri)
 	{
-		sys.CreateUser(v1)
+		sysRg := v1.Group("/sys")
+		{
+			sys.CreateUser(sysRg)
+			sys.UpdateUser(sysRg)
+			sys.GetUsers(sysRg)
+			sys.GetUserById(sysRg)
+			sys.DeleteUser(sysRg)
+			sys.LockUser(sysRg)
+			sys.UnlockUser(sysRg)
+		}
 	}
 }

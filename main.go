@@ -20,6 +20,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	conf.InitDB()
 	server.RegisterRoutes(router, conf)
 
 	router.Run(":7081")

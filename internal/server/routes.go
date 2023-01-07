@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/SilleCao/golang/go-micro-demo/internal/config"
+	auth "github.com/SilleCao/golang/go-micro-demo/internal/modules/auth/api"
 	sys "github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/api"
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/middlewares"
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,7 @@ import (
 func RegisterRoutes(router *gin.Engine, conf *config.Config) {
 
 	v1 := router.Group(config.ApiUri, middlewares.ValidateJWT())
+	// v1 := router.Group(config.ApiUri)
 	{
 		sysRg := v1.Group("/sys")
 		{
@@ -21,5 +23,10 @@ func RegisterRoutes(router *gin.Engine, conf *config.Config) {
 			sys.LockUser(sysRg)
 			sys.UnlockUser(sysRg)
 		}
+	}
+
+	authRg := router.Group("/api/auth")
+	{
+		auth.GenerateToken(authRg)
 	}
 }

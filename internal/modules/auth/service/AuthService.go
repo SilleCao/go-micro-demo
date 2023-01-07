@@ -29,7 +29,7 @@ func Authenticate(cdtl *model.Credentials, ctx context.Context) (string, error) 
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(su.Password), []byte(cdtl.Password)); err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return "", err
 	}
 

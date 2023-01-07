@@ -1,11 +1,11 @@
 package common
 
 type Pagination struct {
-	Size         int         `json:"size"`
-	Page         int         `json:"page"`
-	Sort         string      `json:"sort"`
-	TotalContent int64       `json:"totalContent"`
-	Content      interface{} `json:"content"`
+	Size         int         `json:"size" form:"size"`
+	Page         int         `json:"page" form:"page"`
+	Sort         string      `json:"sort" form:"sort"`
+	TotalContent int64       `json:"totalContent" form:"totalContent"`
+	Content      interface{} `json:"content" form:"content"`
 }
 
 func (p *Pagination) GetOffset() int {

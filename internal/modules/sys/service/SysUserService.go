@@ -8,6 +8,7 @@ import (
 	"github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/model"
 	repo "github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/repository"
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/common"
+	"github.com/jinzhu/copier"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -24,12 +25,15 @@ func CreateUser(user *model.SysUser, ctx context.Context) (err error) {
 	return repo.CreateUser(user, ctx)
 }
 
-func GetUsers(page int, size int, ctx context.Context) (*common.Pagination, error) {
-	pagination := &common.Pagination{
-		Page: page,
-		Size: size,
+func GetUsers(pagination *common.Pagination, ctx context.Context) (*common.Pagination, error) {
+	pagination, err := repo.GetUsers(pagination, ctx)
+	if err != nil {
+		return pagination, err
 	}
-	return repo.GetUsers(pagination, ctx)
+	sud := []model.SysUserDTO{}
+	copier.Copy(&sud, pagination.Content)
+	pagination.Content = sud
+	return pagination, err
 }
 
 func GetUserByUsername(username string, ctx context.Context) (*model.SysUser, error) {

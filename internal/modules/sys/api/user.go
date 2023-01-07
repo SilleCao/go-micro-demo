@@ -3,12 +3,10 @@ package api
 import (
 	"context"
 	"net/http"
-	"strconv"
 
 	"github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/model"
 	"github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/service"
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/common"
-	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,24 +35,16 @@ func UpdateUser(router *gin.RouterGroup) {
 
 func GetUsers(router *gin.RouterGroup) {
 	router.GET("/users", func(ctx *gin.Context) {
-		page := ctx.Query("page")
-		size := ctx.Query("size")
-		if !govalidator.IsInt(page) {
+		var pagination common.Pagination
+		err := ctx.BindQuery(&pagination)
+		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
 				"message": "invaild parameters",
+				"err":     err,
 			})
 			return
 		}
-		if !govalidator.IsInt(size) {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"message": "invaild parameters",
-			})
-			return
-		}
-
-		pageNum, _ := strconv.Atoi(page)
-		sizeNum, _ := strconv.Atoi(size)
-		p, err := service.GetUsers(pageNum, sizeNum, context.Background())
+		p, err := service.GetUsers(&pagination, context.Background())
 		if err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
 				"message": "invaild parameters",

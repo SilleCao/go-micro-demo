@@ -1,6 +1,8 @@
 package main
 
 import (
+	"strconv"
+
 	"github.com/SilleCao/golang/go-micro-demo/internal/config"
 	"github.com/SilleCao/golang/go-micro-demo/internal/server"
 	"github.com/gin-gonic/gin"
@@ -23,5 +25,5 @@ func main() {
 	conf.InitDB()
 	server.RegisterRoutes(router, conf)
 
-	router.Run(":7081")
+	router.Run(":" + strconv.Itoa(conf.Server.Port))
 }

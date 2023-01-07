@@ -6,3 +6,7 @@ database:
   dbName: go-admin
   username: root
   password: epam_systems
+
+server:
+  # context-path: /go-micro-demo
+  port: 7081

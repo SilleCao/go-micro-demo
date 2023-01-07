@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/SilleCao/golang/go-micro-demo/configs"
+	"github.com/SilleCao/golang/go-micro-demo/internal/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gorm"
@@ -22,7 +22,11 @@ func connectDB(dsn string) (db *gorm.DB) {
 }
 
 func init() {
-	db = connectDB(configs.MySQLDSN)
+	conf, err := config.NewConfig()
+	if err != nil {
+		panic(err)
+	}
+	db = connectDB(conf.DatabaseDsn())
 }
 
 func main() {

@@ -1,0 +1,163 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A demo service in Go using Gin framework",
+        "title": "Go Micro Demo",
+        "termsOfService": "https://sille.cn",
+        "contact": {
+            "name": "Sille Cao",
+            "email": "caoliang1025@163.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:7081",
+    "basePath": "/api/v1",
+    "paths": {
+        "/auth/token": {
+            "post": {
+                "description": "Authenicate login user and return token",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "parameters": [
+                    {
+                        "description": "Credentials JSON",
+                        "name": "credential",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Credentials"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/sys/users": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create the new user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "parameters": [
+                    {
+                        "description": "SysUser JSON",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SysUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Credentials": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "example": "111000"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "admin"
+                }
+            }
+        },
+        "model.SysUser": {
+            "type": "object",
+            "properties": {
+                "createDate": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "creator": {
+                    "description": "创建者",
+                    "type": "integer"
+                },
+                "deptId": {
+                    "description": "部门ID",
+                    "type": "integer"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "gender": {
+                    "description": "性别   0：男   1：女    2：保密",
+                    "type": "integer"
+                },
+                "headUrl": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "mobile": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "realName": {
+                    "description": "姓名",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "状态  0：停用   1：正常",
+                    "type": "integer"
+                },
+                "superAdmin": {
+                    "description": "超级管理员   0：否   1：是",
+                    "type": "integer"
+                },
+                "updateDate": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "updater": {
+                    "description": "更新者",
+                    "type": "integer"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

@@ -1,0 +1,111 @@
+basePath: /api/v1
+definitions:
+  model.Credentials:
+    properties:
+      password:
+        example: "111000"
+        type: string
+      username:
+        example: admin
+        type: string
+    type: object
+  model.SysUser:
+    properties:
+      createDate:
+        description: 创建时间
+        type: string
+      creator:
+        description: 创建者
+        type: integer
+      deptId:
+        description: 部门ID
+        type: integer
+      email:
+        description: 邮箱
+        type: string
+      gender:
+        description: 性别   0：男   1：女    2：保密
+        type: integer
+      headUrl:
+        description: 头像
+        type: string
+      id:
+        description: id
+        type: integer
+      mobile:
+        description: 手机号
+        type: string
+      password:
+        description: 密码
+        type: string
+      realName:
+        description: 姓名
+        type: string
+      status:
+        description: 状态  0：停用   1：正常
+        type: integer
+      superAdmin:
+        description: 超级管理员   0：否   1：是
+        type: integer
+      updateDate:
+        description: 更新时间
+        type: string
+      updater:
+        description: 更新者
+        type: integer
+      username:
+        description: 用户名
+        type: string
+    type: object
+host: localhost:7081
+info:
+  contact:
+    email: caoliang1025@163.com
+    name: Sille Cao
+  description: A demo service in Go using Gin framework
+  termsOfService: https://sille.cn
+  title: Go Micro Demo
+  version: "1.0"
+paths:
+  /auth/token:
+    post:
+      description: Authenicate login user and return token
+      parameters:
+      - description: Credentials JSON
+        in: body
+        name: credential
+        required: true
+        schema:
+          $ref: '#/definitions/model.Credentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      tags:
+      - auth
+  /sys/users:
+    post:
+      description: Create the new user
+      parameters:
+      - description: SysUser JSON
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.SysUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      tags:
+      - sys
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -10,8 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateUser
+// @Description Create the new user
+// @Tags 		sys
+// @Produce 	json
+// @Param 		user body model.SysUser true "SysUser JSON"
+// @Success		200
+// @Router		/sys/users [post]
+// @Security BearerAuth
 func CreateUser(router *gin.RouterGroup) {
-	router.POST("/users", func(ctx *gin.Context) {
+	router.POST("/sys/users", func(ctx *gin.Context) {
 		var user model.SysUser
 		err := ctx.BindJSON(&user)
 		if err != nil {
@@ -28,13 +36,13 @@ func CreateUser(router *gin.RouterGroup) {
 }
 
 func UpdateUser(router *gin.RouterGroup) {
-	router.PUT("/users/:id", func(ctx *gin.Context) {
+	router.PUT("/sys/users/:id", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, nil)
 	})
 }
 
 func GetUsers(router *gin.RouterGroup) {
-	router.GET("/users", func(ctx *gin.Context) {
+	router.GET("/sys/users", func(ctx *gin.Context) {
 		var pagination common.Pagination
 		err := ctx.BindQuery(&pagination)
 		if err != nil {
@@ -57,7 +65,7 @@ func GetUsers(router *gin.RouterGroup) {
 }
 
 func GetUserById(router *gin.RouterGroup) {
-	router.GET("/users/:id", func(ctx *gin.Context) {
+	router.GET("/sys/users/:id", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, nil)
 	})
 }
@@ -69,13 +77,13 @@ func DeleteUser(router *gin.RouterGroup) {
 }
 
 func LockUser(router *gin.RouterGroup) {
-	router.POST("/users/lock", func(ctx *gin.Context) {
+	router.POST("/sys/users/lock", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, nil)
 	})
 }
 
 func UnlockUser(router *gin.RouterGroup) {
-	router.POST("/users/unlock", func(ctx *gin.Context) {
+	router.POST("/sys/users/unlock", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, nil)
 	})
 }

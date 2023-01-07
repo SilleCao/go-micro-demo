@@ -11,8 +11,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateUser
+// @Description Authenicate login user and return token
+// @Tags 		auth
+// @Produce 	json
+// @Param 		credential body model.Credentials true "Credentials JSON"
+// @Success		200
+// @Router		/auth/token [post]
+// @example
 func GenerateToken(router *gin.RouterGroup) {
-	router.POST("/token", func(ctx *gin.Context) {
+	router.POST("/auth/token", func(ctx *gin.Context) {
 		var cdtl model.Credentials
 		err := ctx.BindJSON(&cdtl)
 		if err != nil {

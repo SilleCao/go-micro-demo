@@ -1,14 +1,16 @@
 package service
 
 import (
-	"context"
 	"fmt"
-	"log"
+	"strings"
 	"time"
 
 	"github.com/SilleCao/golang/go-micro-demo/internal/modules/auth/model"
 	"github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/repository"
+	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/errors"
+	"github.com/SilleCao/golang/go-micro-demo/pkg/logger"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -20,17 +22,19 @@ type JWTCustomClaims struct {
 
 const DEFAULT_ISSUER = "sille.cn"
 const SECRET_KEY = "0000"
+const BEARER_SCHEMA = "Bearer "
+const HEADER_ATTR_AUTHORIZATION = "Authorization"
 
-func Authenticate(cdtl *model.Credentials, ctx context.Context) (string, error) {
-	su, err := repository.GetUserByUsername(cdtl.Username, ctx)
+func Authenticate(ctx *gin.Context, cdtl *model.Credentials) (string, error) {
+	su, err := repository.GetUserByUsername(ctx, cdtl.Username)
 	if err != nil {
-		log.Println(err)
-		return "", err
+		logger.Err("get user fail", ctx, err)
+		return "", errors.NewNotFoundErr(err.Error(), 404)
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(su.Password), []byte(cdtl.Password)); err != nil {
-		log.Println(err)
-		return "", err
+		logger.Err("password incorrect", ctx, err)
+		return "", errors.NewBadRequestErr(err.Error(), 400)
 	}
 
 	//login user was verified passed
@@ -49,6 +53,14 @@ func GenerateToken(username string, roles []string) (string, error) {
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(SECRET_KEY))
+}
+
+func GetToken(ctx *gin.Context) (string, error) {
+	authHeader := ctx.GetHeader(HEADER_ATTR_AUTHORIZATION)
+	if !strings.HasPrefix(authHeader, BEARER_SCHEMA) {
+		return "", errors.NewBadRequestErr("invaild token", 400)
+	}
+	return authHeader[len(BEARER_SCHEMA):], nil
 }
 
 func ValidateToken(tokenString string) (*jwt.Token, error) {

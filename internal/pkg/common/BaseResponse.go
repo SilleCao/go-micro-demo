@@ -1,26 +1,42 @@
 package common
 
 type BaseResponse struct {
-	Code       int    `json:"code"`
-	Message    string `json:"message"`
-	Data       any    `json:"data"`
-	ErrDetails error  `json:"errDetails"`
+	Code    int    `json:"code"`
+	Message string `json:"message"`
 }
 
-func NewSuccessResponse() BaseResponse {
-	var response BaseResponse
-	response.Code = 0
-	response.Message = "success"
-	return response
+type ScesResponse struct {
+	BaseResponse
+	Data interface{} `json:"data"`
 }
 
-func NewErrResponse(code int, message string, err error) BaseResponse {
-	var response BaseResponse
-	response.Code = code
-	response.Message = message
-	if response.Message == "<empty>" {
-		response.Message = "fail"
+type ErrResponse struct {
+	BaseResponse
+	ErrDetails error `json:"errDetails"`
+}
+
+func NewBaseResp(code int, message string) BaseResponse {
+	return BaseResponse{
+		Code:    code,
+		Message: message,
 	}
-	response.ErrDetails = err
-	return response
+}
+
+func NewResp() BaseResponse {
+	return NewBaseResp(0, "success")
+}
+
+func NewScesResp(data interface{}) ScesResponse {
+	return ScesResponse{
+		BaseResponse: NewResp(),
+		Data:         data,
+	}
+}
+
+func NewErrResp(code int, message string, err error) ErrResponse {
+	resp := ErrResponse{
+		BaseResponse: NewBaseResp(code, message),
+		ErrDetails:   err,
+	}
+	return resp
 }

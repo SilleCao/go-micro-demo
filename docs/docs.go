@@ -29,6 +29,7 @@ const docTemplate = `{
                 "tags": [
                     "auth"
                 ],
+                "summary": "Generate token",
                 "parameters": [
                     {
                         "description": "Credentials JSON",
@@ -48,6 +49,77 @@ const docTemplate = `{
             }
         },
         "/sys/users": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "GetUsers",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "UpdateUser",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "SysUser JSON",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SysUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -61,6 +133,7 @@ const docTemplate = `{
                 "tags": [
                     "sys"
                 ],
+                "summary": "Create User",
                 "parameters": [
                     {
                         "description": "SysUser JSON",
@@ -78,9 +151,85 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/sys/users/status": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update user's status",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "UpdateUserStatus",
+                "parameters": [
+                    {
+                        "description": "UpdateUserStatusDTO JSON",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateUserStatusDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/sys/users/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get user by id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys"
+                ],
+                "summary": "GetUserById",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "dto.UpdateUserStatusDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "状态 -1 Deteled 0：停用   1：正常",
+                    "type": "integer"
+                }
+            }
+        },
         "model.Credentials": {
             "type": "object",
             "properties": {
@@ -127,10 +276,6 @@ const docTemplate = `{
                 },
                 "mobile": {
                     "description": "手机号",
-                    "type": "string"
-                },
-                "password": {
-                    "description": "密码",
                     "type": "string"
                 },
                 "realName": {

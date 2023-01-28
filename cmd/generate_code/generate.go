@@ -33,7 +33,7 @@ func main() {
 
 	g := gen.NewGenerator(gen.Config{
 		OutPath:      "./internal/pkg/dao",
-		ModelPkgPath: "./internal/sys/model",
+		ModelPkgPath: "./internal/modules/sys/model",
 	})
 
 	g.UseDB(db)
@@ -49,11 +49,11 @@ func main() {
 	// g.GenerateModel("sys_menu")
 	// g.GenerateModel("sys_oss")
 	// g.GenerateModel("sys_params")
-	// g.GenerateModel("sys_role")
+	g.GenerateModel("sys_role")
 	// g.GenerateModel("sys_role_data_scope")
 	// g.GenerateModel("sys_role_menu")
 	// g.GenerateModel("sys_role_user")
-	g.ApplyBasic(g.GenerateModel("sys_user"))
+	// g.ApplyBasic(g.GenerateModel("sys_user"))
 	// g.GenerateModel("sys_user_token")
 	g.Execute()
 

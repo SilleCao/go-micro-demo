@@ -8,7 +8,12 @@
 * yaml
 * JWT
 * swagger: gin-swagger
+* copier: jinzhu/copier
+* Oso: https://github.com/osohq/oso
 
+## Features
+* Trace all request with trace id
+* 
 
 ## How to Run
  ### default login user
@@ -23,3 +28,8 @@ Access swagger portal: http://localhost:7081/swagger/index.html
   swag init
   ```
   how to update the swagger configuration, can refer to https://pkg.go.dev/github.com/swaggo/gin-swagger
+
+### Docker build
+```
+docker build --pull --rm -f "Dockerfile" -t gomicrodemo:latest "."
+```

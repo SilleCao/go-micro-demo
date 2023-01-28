@@ -1,5 +1,14 @@
 basePath: /api/v1
 definitions:
+  dto.UpdateUserStatusDTO:
+    properties:
+      id:
+        description: id
+        type: integer
+      status:
+        description: 状态 -1 Deteled 0：停用   1：正常
+        type: integer
+    type: object
   model.Credentials:
     properties:
       password:
@@ -34,9 +43,6 @@ definitions:
         type: integer
       mobile:
         description: 手机号
-        type: string
-      password:
-        description: 密码
         type: string
       realName:
         description: 姓名
@@ -82,9 +88,31 @@ paths:
       responses:
         "200":
           description: OK
+      summary: Generate token
       tags:
       - auth
   /sys/users:
+    get:
+      description: Get users
+      parameters:
+      - description: page number
+        in: query
+        name: page
+        type: integer
+      - description: page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: GetUsers
+      tags:
+      - sys
     post:
       description: Create the new user
       parameters:
@@ -101,6 +129,68 @@ paths:
           description: OK
       security:
       - BearerAuth: []
+      summary: Create User
+      tags:
+      - sys
+    put:
+      description: Update user
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        type: integer
+      - description: SysUser JSON
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.SysUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: UpdateUser
+      tags:
+      - sys
+  /sys/users/{id}:
+    get:
+      description: Get user by id
+      parameters:
+      - description: user id
+        in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: GetUserById
+      tags:
+      - sys
+  /sys/users/status:
+    put:
+      description: Update user's status
+      parameters:
+      - description: UpdateUserStatusDTO JSON
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserStatusDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: UpdateUserStatus
       tags:
       - sys
 securityDefinitions:

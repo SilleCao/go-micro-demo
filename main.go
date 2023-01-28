@@ -5,7 +5,9 @@ import (
 
 	_ "github.com/SilleCao/golang/go-micro-demo/docs"
 	"github.com/SilleCao/golang/go-micro-demo/internal/config"
+	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/middlewares"
 	"github.com/SilleCao/golang/go-micro-demo/internal/server"
+	"github.com/SilleCao/golang/go-micro-demo/pkg/logger"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,10 +25,13 @@ import (
 // @in header
 // @name Authorization
 func main() {
-	router := gin.New()
 
-	// Register common middleware.
-	// router.Use(Recovery(), Security(conf), Logger())
+	logger.InitLog()
+
+	router := gin.New()
+	router.Use(gin.Recovery())
+	// router.Use(middlewares.Logger())
+	router.Use(middlewares.TraceRequest())
 
 	// Find and load templates.
 	// router.LoadHTMLFiles(conf.TemplateFiles()...)

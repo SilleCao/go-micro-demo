@@ -15,7 +15,7 @@ import (
 // CreateUser
 // @Summary 	Create User
 // @Description Create the new user
-// @Tags 		sys
+// @Tags 		sys/user
 // @Produce 	json
 // @Param 		user body model.SysUser true "SysUser JSON"
 // @Success		200
@@ -41,7 +41,7 @@ func CreateUser(router *gin.RouterGroup) {
 
 // @Summary 	UpdateUser
 // @Description Update user
-// @Tags 		sys
+// @Tags 		sys/user
 // @Produce 	json
 // @Param 		id	path	int false "user id"
 // @Param 		user body model.SysUser true "SysUser JSON"
@@ -76,7 +76,7 @@ func UpdateUser(router *gin.RouterGroup) {
 
 // @Summary 	GetUsers
 // @Description Get users
-// @Tags 		sys
+// @Tags 		sys/user
 // @Produce 	json
 // @Param 		page	query	int false "page number"
 // @Param 		size	query	int false "page size"
@@ -102,7 +102,7 @@ func GetUsers(router *gin.RouterGroup) {
 
 // @Summary 	GetUserById
 // @Description Get user by id
-// @Tags 		sys
+// @Tags 		sys/user
 // @Produce 	json
 // @Param 		id	path	int false "user id"
 // @Success		200
@@ -127,7 +127,7 @@ func GetUserById(router *gin.RouterGroup) {
 
 // @Summary 	UpdateUserStatus
 // @Description Update user's status
-// @Tags 		sys
+// @Tags 		sys/user
 // @Produce 	json
 // @Param 		user body dto.UpdateUserStatusDTO true "UpdateUserStatusDTO JSON"
 // @Success		200

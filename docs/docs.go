@@ -48,6 +48,138 @@ const docTemplate = `{
                 }
             }
         },
+        "/sys/roles": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get the list of Role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/role"
+                ],
+                "summary": "Get Roles",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "role name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "role remark",
+                        "name": "remark",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update the role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/role"
+                ],
+                "summary": "Update Role",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "role id",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "SysRole JSON",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SysRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create the new role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/role"
+                ],
+                "summary": "Create Role",
+                "parameters": [
+                    {
+                        "description": "SysRole JSON",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SysRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/role"
+                ],
+                "summary": "Delete Role",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "role id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/sys/users": {
             "get": {
                 "security": [
@@ -60,7 +192,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "GetUsers",
                 "parameters": [
@@ -94,7 +226,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "UpdateUser",
                 "parameters": [
@@ -131,7 +263,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "Create User",
                 "parameters": [
@@ -164,7 +296,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "UpdateUserStatus",
                 "parameters": [
@@ -197,7 +329,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "GetUserById",
                 "parameters": [
@@ -240,6 +372,43 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "admin"
+                }
+            }
+        },
+        "model.SysRole": {
+            "type": "object",
+            "properties": {
+                "createDate": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "creator": {
+                    "description": "创建者",
+                    "type": "integer"
+                },
+                "deptId": {
+                    "description": "部门ID",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "角色名称",
+                    "type": "string"
+                },
+                "remark": {
+                    "description": "备注",
+                    "type": "string"
+                },
+                "updateDate": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "updater": {
+                    "description": "更新者",
+                    "type": "integer"
                 }
             }
         },

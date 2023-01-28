@@ -49,12 +49,13 @@ func main() {
 	// g.GenerateModel("sys_menu")
 	// g.GenerateModel("sys_oss")
 	// g.GenerateModel("sys_params")
-	g.GenerateModel("sys_role")
+	// g.GenerateModel("sys_role")
 	// g.GenerateModel("sys_role_data_scope")
 	// g.GenerateModel("sys_role_menu")
 	// g.GenerateModel("sys_role_user")
-	// g.ApplyBasic(g.GenerateModel("sys_user"))
 	// g.GenerateModel("sys_user_token")
+	// g.GenerateModel("sys_user")
+	g.ApplyBasic(g.GenerateModel("sys_user"), g.GenerateModel("sys_role"))
 	g.Execute()
 
 }
@@ -63,6 +64,11 @@ func nameStrategy(c string) string {
 	if c == "<empty>" {
 		return c
 	}
+
+	if c == "password" || c == "Password" {
+		return "-"
+	}
+
 	subNames := strings.Split(c, "_")
 	var newName string
 	for index, subName := range subNames {

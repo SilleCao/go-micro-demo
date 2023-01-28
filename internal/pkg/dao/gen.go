@@ -18,6 +18,7 @@ import (
 func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 	return &Query{
 		db:      db,
+		SysRole: newSysRole(db, opts...),
 		SysUser: newSysUser(db, opts...),
 	}
 }
@@ -25,6 +26,7 @@ func Use(db *gorm.DB, opts ...gen.DOOption) *Query {
 type Query struct {
 	db *gorm.DB
 
+	SysRole sysRole
 	SysUser sysUser
 }
 
@@ -33,6 +35,7 @@ func (q *Query) Available() bool { return q.db != nil }
 func (q *Query) clone(db *gorm.DB) *Query {
 	return &Query{
 		db:      db,
+		SysRole: q.SysRole.clone(db),
 		SysUser: q.SysUser.clone(db),
 	}
 }
@@ -48,16 +51,19 @@ func (q *Query) WriteDB() *Query {
 func (q *Query) ReplaceDB(db *gorm.DB) *Query {
 	return &Query{
 		db:      db,
+		SysRole: q.SysRole.replaceDB(db),
 		SysUser: q.SysUser.replaceDB(db),
 	}
 }
 
 type queryCtx struct {
+	SysRole *sysRoleDo
 	SysUser *sysUserDo
 }
 
 func (q *Query) WithContext(ctx context.Context) *queryCtx {
 	return &queryCtx{
+		SysRole: q.SysRole.WithContext(ctx),
 		SysUser: q.SysUser.WithContext(ctx),
 	}
 }

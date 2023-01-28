@@ -18,6 +18,33 @@ definitions:
         example: admin
         type: string
     type: object
+  model.SysRole:
+    properties:
+      createDate:
+        description: 创建时间
+        type: string
+      creator:
+        description: 创建者
+        type: integer
+      deptId:
+        description: 部门ID
+        type: integer
+      id:
+        description: id
+        type: integer
+      name:
+        description: 角色名称
+        type: string
+      remark:
+        description: 备注
+        type: string
+      updateDate:
+        description: 更新时间
+        type: string
+      updater:
+        description: 更新者
+        type: integer
+    type: object
   model.SysUser:
     properties:
       createDate:
@@ -91,6 +118,87 @@ paths:
       summary: Generate token
       tags:
       - auth
+  /sys/roles:
+    delete:
+      description: Delete Role
+      parameters:
+      - description: role id
+        in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Delete Role
+      tags:
+      - sys/role
+    get:
+      description: Get the list of Role
+      parameters:
+      - description: role name
+        in: query
+        name: name
+        type: string
+      - description: role remark
+        in: query
+        name: remark
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Get Roles
+      tags:
+      - sys/role
+    post:
+      description: Create the new role
+      parameters:
+      - description: SysRole JSON
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/model.SysRole'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Create Role
+      tags:
+      - sys/role
+    put:
+      description: Update the role
+      parameters:
+      - description: role id
+        in: path
+        name: id
+        type: integer
+      - description: SysRole JSON
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/model.SysRole'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Update Role
+      tags:
+      - sys/role
   /sys/users:
     get:
       description: Get users
@@ -112,7 +220,7 @@ paths:
       - BearerAuth: []
       summary: GetUsers
       tags:
-      - sys
+      - sys/user
     post:
       description: Create the new user
       parameters:
@@ -131,7 +239,7 @@ paths:
       - BearerAuth: []
       summary: Create User
       tags:
-      - sys
+      - sys/user
     put:
       description: Update user
       parameters:
@@ -154,7 +262,7 @@ paths:
       - BearerAuth: []
       summary: UpdateUser
       tags:
-      - sys
+      - sys/user
   /sys/users/{id}:
     get:
       description: Get user by id
@@ -172,7 +280,7 @@ paths:
       - BearerAuth: []
       summary: GetUserById
       tags:
-      - sys
+      - sys/user
   /sys/users/status:
     put:
       description: Update user's status
@@ -192,7 +300,7 @@ paths:
       - BearerAuth: []
       summary: UpdateUserStatus
       tags:
-      - sys
+      - sys/user
 securityDefinitions:
   BearerAuth:
     in: header

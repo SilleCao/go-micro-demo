@@ -10,6 +10,7 @@ import (
 	repo "github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/repository"
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/common"
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/errors"
+	"github.com/SilleCao/golang/go-micro-demo/pkg/logger"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 
@@ -17,12 +18,17 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func CreateUser(ctx *gin.Context, user *model.SysUser) error {
+func CreateUser(ctx *gin.Context, userReq *dto.CreateSysUserRequest) error {
+
+	user := model.SysUser{}
+	copier.Copy(&user, userReq)
 	su, _ := GetLoginUser(ctx)
 	user.CreateDate = time.Now()
 	user.UpdateDate = time.Now()
 	user.Creator = su.ID
 	user.Updater = su.ID
+	user.SuperAdmin = common.UserIsSuperAdmin_FALSE
+	user.Status = common.UserStatus_Locked
 
 	//crypt user's password
 	cryptedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
@@ -30,40 +36,49 @@ func CreateUser(ctx *gin.Context, user *model.SysUser) error {
 		return fmt.Errorf("generate crypt password fail: %v", err)
 	}
 	user.Password = string(cryptedPassword)
-	return repo.CreateUser(ctx, user)
+	return repo.CreateUser(ctx, &user)
 }
 
-func UpdateUser(ctx *gin.Context, user *model.SysUser) error {
+func UpdateUser(ctx *gin.Context, userReq *dto.UpdateSysUserRequest) error {
+	user := model.SysUser{}
+	copier.Copy(&user, userReq)
+
 	su, _ := GetLoginUser(ctx)
 	user.UpdateDate = time.Now()
 	user.Updater = su.ID
-	return repo.UpdateUser(ctx, user)
+	return repo.UpdateUser(ctx, &user)
 }
 
-func GetUsers(ctx *gin.Context, pagination *common.Pagination) (*common.Pagination, error) {
-	pagination, err := repo.GetUsers(ctx, pagination)
+func GetUsers(ctx *gin.Context, userReq *dto.GetSysUsersRequest, pagination *common.Pagination) (*common.Pagination, error) {
+	user := model.SysUser{}
+	copier.Copy(&user, userReq)
+
+	pagination, err := repo.GetUsers(ctx, &user, pagination)
 	if err != nil {
 		return pagination, fmt.Errorf("get users fail: %v", err)
 	}
-	// sud := []model.SysUserDTO{}
-	// copier.Copy(&sud, pagination.Content)
-	// pagination.Content = sud
+	sysUserResps := []dto.SysUserResponse{}
+	copier.Copy(&sysUserResps, pagination.Content)
+	pagination.Content = sysUserResps
 	return pagination, err
 }
 
-func GetUserById(ctx *gin.Context, id int64) (*model.SysUser, error) {
-	return repo.GetUserById(ctx, id)
+func GetUserById(ctx *gin.Context, id int64) (*dto.SysUserResponse, error) {
+	su, err := repo.GetUserById(ctx, id)
+	if err != nil {
+		logger.Err("get user by id fail", ctx, err)
+		return nil, err
+	}
+	sur := dto.SysUserResponse{}
+	copier.Copy(&sur, su)
+	return &sur, nil
 }
 
-func GetUserByUsername(ctx *gin.Context, username string) (*model.SysUser, error) {
-	return repo.GetUserByUsername(ctx, username)
-}
-
-func UpdateUserStatus(ctx *gin.Context, uerDto dto.UpdateUserStatusDTO) error {
+func UpdateUserStatus(ctx *gin.Context, uerDto dto.UpdateSysUserStatusRequest) error {
 	if !CheckLogUserIsAdmin(ctx) {
 		return errors.NewUnauthorizedErr("only super admin can lock user", 401)
 	}
-	user := model.SysUser{}
+	user := dto.UpdateSysUserRequest{}
 	copier.Copy(&user, uerDto)
 	return UpdateUser(ctx, &user)
 }
@@ -76,5 +91,5 @@ func CheckLogUserIsAdmin(ctx *gin.Context) bool {
 func GetLoginUser(ctx *gin.Context) (*model.SysUser, error) {
 	tokenStr, _ := service.GetToken(ctx)
 	token, _ := service.ValidateToken(tokenStr)
-	return GetUserByUsername(ctx, fmt.Sprintf("%v", token.Claims.(jwt.MapClaims)["name"]))
+	return repo.GetUserByUsername(ctx, fmt.Sprintf("%v", token.Claims.(jwt.MapClaims)["name"]))
 }

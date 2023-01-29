@@ -1,4 +1,6 @@
-# GO-MICRO-DEMO
+# RUYA-API
+
+ruya-api is backend service built in golang
 
 ## Technical Selection
 * gin
@@ -10,6 +12,7 @@
 * swagger: gin-swagger
 * copier: jinzhu/copier
 * Oso: https://github.com/osohq/oso
+* Redis: use Redis to cache data
 
 ## Features
 * Trace all request with trace id

@@ -1,36 +1,36 @@
 basePath: /api/v1
 definitions:
-  dto.UpdateUserStatusDTO:
+  dto.CreateSysUserRequest:
     properties:
-      id:
-        description: id
-        type: integer
-      status:
-        description: 状态 -1 Deteled 0：停用   1：正常
-        type: integer
-    type: object
-  model.Credentials:
-    properties:
-      password:
-        example: "111000"
-        type: string
-      username:
-        example: admin
-        type: string
-    type: object
-  model.SysRole:
-    properties:
-      createDate:
-        description: 创建时间
-        type: string
-      creator:
-        description: 创建者
-        type: integer
       deptId:
         description: 部门ID
         type: integer
-      id:
-        description: id
+      email:
+        description: 邮箱
+        type: string
+      gender:
+        description: 性别   0：男   1：女    2：保密
+        type: integer
+      headUrl:
+        description: 头像
+        type: string
+      mobile:
+        description: 手机号
+        type: string
+      password:
+        description: 密码
+        type: string
+      realName:
+        description: 姓名
+        type: string
+      username:
+        description: 用户名
+        type: string
+    type: object
+  dto.RoleRequest:
+    properties:
+      deptId:
+        description: 部门ID
         type: integer
       name:
         description: 角色名称
@@ -38,21 +38,9 @@ definitions:
       remark:
         description: 备注
         type: string
-      updateDate:
-        description: 更新时间
-        type: string
-      updater:
-        description: 更新者
-        type: integer
     type: object
-  model.SysUser:
+  dto.UpdateSysUserRequest:
     properties:
-      createDate:
-        description: 创建时间
-        type: string
-      creator:
-        description: 创建者
-        type: integer
       deptId:
         description: 部门ID
         type: integer
@@ -75,19 +63,31 @@ definitions:
         description: 姓名
         type: string
       status:
-        description: 状态  0：停用   1：正常
+        description: 状态 -1 Deteled 0：停用   1：正常
         type: integer
       superAdmin:
-        description: 超级管理员   0：否   1：是
-        type: integer
-      updateDate:
-        description: 更新时间
-        type: string
-      updater:
-        description: 更新者
+        description: 状态 -1 Deteled 0：停用   1：正常
         type: integer
       username:
         description: 用户名
+        type: string
+    type: object
+  dto.UpdateSysUserStatusRequest:
+    properties:
+      id:
+        description: id
+        type: integer
+      status:
+        description: 状态 -1 Deteled 0：停用   1：正常
+        type: integer
+    type: object
+  model.Credentials:
+    properties:
+      password:
+        example: "111000"
+        type: string
+      username:
+        example: admin
         type: string
     type: object
 host: localhost:7081
@@ -147,6 +147,14 @@ paths:
         in: query
         name: remark
         type: string
+      - description: page number
+        in: query
+        name: page
+        type: integer
+      - description: page size
+        in: query
+        name: size
+        type: integer
       produces:
       - application/json
       responses:
@@ -160,12 +168,12 @@ paths:
     post:
       description: Create the new role
       parameters:
-      - description: SysRole JSON
+      - description: RoleRequest JSON
         in: body
         name: role
         required: true
         schema:
-          $ref: '#/definitions/model.SysRole'
+          $ref: '#/definitions/dto.RoleRequest'
       produces:
       - application/json
       responses:
@@ -183,12 +191,12 @@ paths:
         in: path
         name: id
         type: integer
-      - description: SysRole JSON
+      - description: RoleRequest JSON
         in: body
         name: role
         required: true
         schema:
-          $ref: '#/definitions/model.SysRole'
+          $ref: '#/definitions/dto.RoleRequest'
       produces:
       - application/json
       responses:
@@ -203,6 +211,34 @@ paths:
     get:
       description: Get users
       parameters:
+      - description: username
+        in: query
+        name: username
+        type: string
+      - description: real name
+        in: query
+        name: realName
+        type: string
+      - description: email
+        in: query
+        name: email
+        type: string
+      - description: mobile
+        in: query
+        name: mobile
+        type: string
+      - description: gender
+        in: query
+        name: gender
+        type: integer
+      - description: super admin
+        in: query
+        name: superAdmin
+        type: integer
+      - description: status
+        in: query
+        name: status
+        type: integer
       - description: page number
         in: query
         name: page
@@ -224,12 +260,12 @@ paths:
     post:
       description: Create the new user
       parameters:
-      - description: SysUser JSON
+      - description: CreateSysUserRequest JSON
         in: body
         name: user
         required: true
         schema:
-          $ref: '#/definitions/model.SysUser'
+          $ref: '#/definitions/dto.CreateSysUserRequest'
       produces:
       - application/json
       responses:
@@ -243,16 +279,12 @@ paths:
     put:
       description: Update user
       parameters:
-      - description: user id
-        in: path
-        name: id
-        type: integer
-      - description: SysUser JSON
+      - description: UpdateSysUserRequest JSON
         in: body
         name: user
         required: true
         schema:
-          $ref: '#/definitions/model.SysUser'
+          $ref: '#/definitions/dto.UpdateSysUserRequest'
       produces:
       - application/json
       responses:
@@ -285,12 +317,12 @@ paths:
     put:
       description: Update user's status
       parameters:
-      - description: UpdateUserStatusDTO JSON
+      - description: UpdateSysUserStatusRequest JSON
         in: body
         name: user
         required: true
         schema:
-          $ref: '#/definitions/dto.UpdateUserStatusDTO'
+          $ref: '#/definitions/dto.UpdateSysUserStatusRequest'
       produces:
       - application/json
       responses:

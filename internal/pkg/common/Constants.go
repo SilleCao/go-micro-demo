@@ -9,3 +9,13 @@ const (
 	UserStatus_Locked  = 0
 	UserStatus_Normal  = 1
 )
+
+const (
+	UserIsSuperAdmin_FALSE = 0
+	UserIsSuperAdmin_TURE  = 1
+)
+
+const (
+	//15d
+	UserDataCacheExpiration = "360h"
+)

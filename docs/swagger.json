@@ -68,6 +68,18 @@
                         "description": "role remark",
                         "name": "remark",
                         "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size",
+                        "name": "size",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -98,12 +110,12 @@
                         "in": "path"
                     },
                     {
-                        "description": "SysRole JSON",
+                        "description": "RoleRequest JSON",
                         "name": "role",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.SysRole"
+                            "$ref": "#/definitions/dto.RoleRequest"
                         }
                     }
                 ],
@@ -129,12 +141,12 @@
                 "summary": "Create Role",
                 "parameters": [
                     {
-                        "description": "SysRole JSON",
+                        "description": "RoleRequest JSON",
                         "name": "role",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.SysRole"
+                            "$ref": "#/definitions/dto.RoleRequest"
                         }
                     }
                 ],
@@ -190,6 +202,48 @@
                 "summary": "GetUsers",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "real name",
+                        "name": "realName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "mobile",
+                        "name": "mobile",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "gender",
+                        "name": "gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "super admin",
+                        "name": "superAdmin",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "page number",
                         "name": "page",
@@ -224,18 +278,12 @@
                 "summary": "UpdateUser",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path"
-                    },
-                    {
-                        "description": "SysUser JSON",
+                        "description": "UpdateSysUserRequest JSON",
                         "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.SysUser"
+                            "$ref": "#/definitions/dto.UpdateSysUserRequest"
                         }
                     }
                 ],
@@ -261,12 +309,12 @@
                 "summary": "Create User",
                 "parameters": [
                     {
-                        "description": "SysUser JSON",
+                        "description": "CreateSysUserRequest JSON",
                         "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.SysUser"
+                            "$ref": "#/definitions/dto.CreateSysUserRequest"
                         }
                     }
                 ],
@@ -294,12 +342,12 @@
                 "summary": "UpdateUserStatus",
                 "parameters": [
                     {
-                        "description": "UpdateUserStatusDTO JSON",
+                        "description": "UpdateSysUserStatusRequest JSON",
                         "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateUserStatusDTO"
+                            "$ref": "#/definitions/dto.UpdateSysUserStatusRequest"
                         }
                     }
                 ],
@@ -342,49 +390,48 @@
         }
     },
     "definitions": {
-        "dto.UpdateUserStatusDTO": {
+        "dto.CreateSysUserRequest": {
             "type": "object",
             "properties": {
-                "id": {
-                    "description": "id",
-                    "type": "integer"
-                },
-                "status": {
-                    "description": "状态 -1 Deteled 0：停用   1：正常",
-                    "type": "integer"
-                }
-            }
-        },
-        "model.Credentials": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string",
-                    "example": "111000"
-                },
-                "username": {
-                    "type": "string",
-                    "example": "admin"
-                }
-            }
-        },
-        "model.SysRole": {
-            "type": "object",
-            "properties": {
-                "createDate": {
-                    "description": "创建时间",
-                    "type": "string"
-                },
-                "creator": {
-                    "description": "创建者",
-                    "type": "integer"
-                },
                 "deptId": {
                     "description": "部门ID",
                     "type": "integer"
                 },
-                "id": {
-                    "description": "id",
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "gender": {
+                    "description": "性别   0：男   1：女    2：保密",
+                    "type": "integer"
+                },
+                "headUrl": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "realName": {
+                    "description": "姓名",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.RoleRequest": {
+            "type": "object",
+            "properties": {
+                "deptId": {
+                    "description": "部门ID",
                     "type": "integer"
                 },
                 "name": {
@@ -394,28 +441,12 @@
                 "remark": {
                     "description": "备注",
                     "type": "string"
-                },
-                "updateDate": {
-                    "description": "更新时间",
-                    "type": "string"
-                },
-                "updater": {
-                    "description": "更新者",
-                    "type": "integer"
                 }
             }
         },
-        "model.SysUser": {
+        "dto.UpdateSysUserRequest": {
             "type": "object",
             "properties": {
-                "createDate": {
-                    "description": "创建时间",
-                    "type": "string"
-                },
-                "creator": {
-                    "description": "创建者",
-                    "type": "integer"
-                },
                 "deptId": {
                     "description": "部门ID",
                     "type": "integer"
@@ -445,24 +476,42 @@
                     "type": "string"
                 },
                 "status": {
-                    "description": "状态  0：停用   1：正常",
+                    "description": "状态 -1 Deteled 0：停用   1：正常",
                     "type": "integer"
                 },
                 "superAdmin": {
-                    "description": "超级管理员   0：否   1：是",
-                    "type": "integer"
-                },
-                "updateDate": {
-                    "description": "更新时间",
-                    "type": "string"
-                },
-                "updater": {
-                    "description": "更新者",
+                    "description": "状态 -1 Deteled 0：停用   1：正常",
                     "type": "integer"
                 },
                 "username": {
                     "description": "用户名",
                     "type": "string"
+                }
+            }
+        },
+        "dto.UpdateSysUserStatusRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "状态 -1 Deteled 0：停用   1：正常",
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Credentials": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "example": "111000"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "admin"
                 }
             }
         }

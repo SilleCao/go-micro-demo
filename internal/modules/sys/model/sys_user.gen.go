@@ -14,7 +14,7 @@ const TableNameSysUser = "sys_user"
 type SysUser struct {
 	ID         int64     `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"` // id
 	Username   string    `gorm:"column:username;not null" json:"username"`          // 用户名
-	Password   string    `gorm:"column:password" json:"-"`                          // 密码
+	Password   string    `gorm:"column:password" json:"password"`                   // 密码
 	RealName   string    `gorm:"column:real_name" json:"realName"`                  // 姓名
 	HeadURL    string    `gorm:"column:head_url" json:"headUrl"`                    // 头像
 	Gender     int32     `gorm:"column:gender" json:"gender"`                       // 性别   0：男   1：女    2：保密

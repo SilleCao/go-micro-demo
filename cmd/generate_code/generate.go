@@ -65,9 +65,9 @@ func nameStrategy(c string) string {
 		return c
 	}
 
-	if c == "password" || c == "Password" {
-		return "-"
-	}
+	// if c == "password" || c == "Password" {
+	// 	return "-"
+	// }
 
 	subNames := strings.Split(c, "_")
 	var newName string

@@ -1,5 +1,11 @@
 package common
 
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
 type BaseResponse struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
@@ -39,4 +45,12 @@ func NewErrResp(code int, message string, err error) ErrResponse {
 		ErrDetails:   err,
 	}
 	return resp
+}
+
+func SetScesResp(ctx *gin.Context, data interface{}) {
+	ctx.JSON(http.StatusOK, NewScesResp(data))
+}
+
+func SetErrResp(ctx *gin.Context, code int, message string, err error) {
+	ctx.JSON(code, NewErrResp(code, message, err))
 }

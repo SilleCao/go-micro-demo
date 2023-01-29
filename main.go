@@ -42,6 +42,7 @@ func main() {
 		panic(err)
 	}
 	conf.InitDB()
+	conf.InitRedis()
 	server.RegisterRoutes(router, conf)
 	router.Run(":" + strconv.Itoa(conf.Server.Port))
 }

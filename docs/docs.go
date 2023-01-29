@@ -48,6 +48,150 @@ const docTemplate = `{
                 }
             }
         },
+        "/sys/roles": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get the list of Role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/role"
+                ],
+                "summary": "Get Roles",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "role name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "role remark",
+                        "name": "remark",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update the role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/role"
+                ],
+                "summary": "Update Role",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "role id",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "RoleRequest JSON",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create the new role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/role"
+                ],
+                "summary": "Create Role",
+                "parameters": [
+                    {
+                        "description": "RoleRequest JSON",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Role",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/role"
+                ],
+                "summary": "Delete Role",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "role id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/sys/users": {
             "get": {
                 "security": [
@@ -60,10 +204,52 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "GetUsers",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "real name",
+                        "name": "realName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "email",
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "mobile",
+                        "name": "mobile",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "gender",
+                        "name": "gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "super admin",
+                        "name": "superAdmin",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "status",
+                        "name": "status",
+                        "in": "query"
+                    },
                     {
                         "type": "integer",
                         "description": "page number",
@@ -94,23 +280,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "UpdateUser",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "user id",
-                        "name": "id",
-                        "in": "path"
-                    },
-                    {
-                        "description": "SysUser JSON",
+                        "description": "UpdateSysUserRequest JSON",
                         "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.SysUser"
+                            "$ref": "#/definitions/dto.UpdateSysUserRequest"
                         }
                     }
                 ],
@@ -131,17 +311,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "Create User",
                 "parameters": [
                     {
-                        "description": "SysUser JSON",
+                        "description": "CreateSysUserRequest JSON",
                         "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.SysUser"
+                            "$ref": "#/definitions/dto.CreateSysUserRequest"
                         }
                     }
                 ],
@@ -164,17 +344,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "UpdateUserStatus",
                 "parameters": [
                     {
-                        "description": "UpdateUserStatusDTO JSON",
+                        "description": "UpdateSysUserStatusRequest JSON",
                         "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateUserStatusDTO"
+                            "$ref": "#/definitions/dto.UpdateSysUserStatusRequest"
                         }
                     }
                 ],
@@ -197,7 +377,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "sys"
+                    "sys/user"
                 ],
                 "summary": "GetUserById",
                 "parameters": [
@@ -217,43 +397,63 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.UpdateUserStatusDTO": {
+        "dto.CreateSysUserRequest": {
             "type": "object",
             "properties": {
-                "id": {
-                    "description": "id",
+                "deptId": {
+                    "description": "部门ID",
                     "type": "integer"
                 },
-                "status": {
-                    "description": "状态 -1 Deteled 0：停用   1：正常",
-                    "type": "integer"
-                }
-            }
-        },
-        "model.Credentials": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string",
-                    "example": "111000"
-                },
-                "username": {
-                    "type": "string",
-                    "example": "admin"
-                }
-            }
-        },
-        "model.SysUser": {
-            "type": "object",
-            "properties": {
-                "createDate": {
-                    "description": "创建时间",
+                "email": {
+                    "description": "邮箱",
                     "type": "string"
                 },
-                "creator": {
-                    "description": "创建者",
+                "gender": {
+                    "description": "性别   0：男   1：女    2：保密",
                     "type": "integer"
                 },
+                "headUrl": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "手机号",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "realName": {
+                    "description": "姓名",
+                    "type": "string"
+                },
+                "username": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.RoleRequest": {
+            "type": "object",
+            "properties": {
+                "deptId": {
+                    "description": "部门ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "角色名称",
+                    "type": "string"
+                },
+                "remark": {
+                    "description": "备注",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateSysUserRequest": {
+            "type": "object",
+            "properties": {
                 "deptId": {
                     "description": "部门ID",
                     "type": "integer"
@@ -283,24 +483,42 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
-                    "description": "状态  0：停用   1：正常",
+                    "description": "状态 -1 Deteled 0：停用   1：正常",
                     "type": "integer"
                 },
                 "superAdmin": {
-                    "description": "超级管理员   0：否   1：是",
-                    "type": "integer"
-                },
-                "updateDate": {
-                    "description": "更新时间",
-                    "type": "string"
-                },
-                "updater": {
-                    "description": "更新者",
+                    "description": "状态 -1 Deteled 0：停用   1：正常",
                     "type": "integer"
                 },
                 "username": {
                     "description": "用户名",
                     "type": "string"
+                }
+            }
+        },
+        "dto.UpdateSysUserStatusRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "状态 -1 Deteled 0：停用   1：正常",
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Credentials": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "example": "111000"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "admin"
                 }
             }
         }

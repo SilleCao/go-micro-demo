@@ -10,3 +10,8 @@ database:
 server:
   # context-path: /go-micro-demo
   port: 7081
+
+redis:
+  addr: localhost:6379
+  password: epam_systems
+  db: 0

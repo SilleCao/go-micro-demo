@@ -24,6 +24,12 @@ type DataBaseConfig struct {
 	Port     int    `yaml:"port"`
 }
 
+type RedisCofig struct {
+	Addr     string `yaml:"addr"`
+	Password string `yaml:"password"`
+	Db       int    `yaml:"db"`
+}
+
 type Server struct {
 	ContextPath string `yaml:"context-path"`
 	Port        int    `yaml:"port"`
@@ -32,6 +38,7 @@ type Server struct {
 type Config struct {
 	DataBaseConfig DataBaseConfig `yaml:"database"`
 	Server         Server         `yaml:"server"`
+	RedisCofig     RedisCofig     `yaml:"redis"`
 	// once           sync.Once
 	db *gorm.DB
 }

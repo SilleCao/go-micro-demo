@@ -11,8 +11,8 @@ import (
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/common"
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/errors"
 	"github.com/SilleCao/golang/go-micro-demo/pkg/logger"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 
 	"github.com/jinzhu/copier"
 	"golang.org/x/crypto/bcrypt"

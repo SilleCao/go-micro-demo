@@ -1,6 +1,6 @@
 package dto
 
-type RoleRequest struct {
+type SysRoleRequest struct {
 	ID     int64  `json:"-"`                    // id
 	Name   string `json:"name" form:"name"`     // 角色名称
 	Remark string `json:"remark" form:"remark"` // 备注

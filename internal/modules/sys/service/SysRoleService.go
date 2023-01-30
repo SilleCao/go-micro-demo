@@ -11,7 +11,7 @@ import (
 	"github.com/jinzhu/copier"
 )
 
-func CreateRole(ctx *gin.Context, role *dto.RoleRequest) error {
+func CreateRole(ctx *gin.Context, role *dto.SysRoleRequest) error {
 	sr := model.SysRole{}
 	copier.Copy(&sr, role)
 	su, _ := GetLoginUser(ctx)
@@ -22,7 +22,7 @@ func CreateRole(ctx *gin.Context, role *dto.RoleRequest) error {
 	return repo.CreateRole(ctx, &sr)
 }
 
-func UpdateRole(ctx *gin.Context, role *dto.RoleRequest) error {
+func UpdateRole(ctx *gin.Context, role *dto.SysRoleRequest) error {
 	sr := model.SysRole{}
 	copier.Copy(&sr, role)
 	su, _ := GetLoginUser(ctx)
@@ -31,7 +31,7 @@ func UpdateRole(ctx *gin.Context, role *dto.RoleRequest) error {
 	return repo.UpdateRole(ctx, &sr)
 }
 
-func GetRoles(ctx *gin.Context, role *dto.RoleRequest, page *common.Pagination) (*common.Pagination, error) {
+func GetRoles(ctx *gin.Context, role *dto.SysRoleRequest, page *common.Pagination) (*common.Pagination, error) {
 	sr := model.SysRole{}
 	copier.Copy(&sr, role)
 	return repo.GetRoles(ctx, &sr, page)

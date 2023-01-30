@@ -28,6 +28,11 @@ func RegisterRoutes(router *gin.Engine, conf *config.Config) {
 				sys.UpdateRole(sysRg)
 				sys.GetRoles(sysRg)
 				sys.DeleteRole(sysRg)
+
+				sys.CreateMenu(sysRg)
+				sys.UpdateMenu(sysRg)
+				sys.GetMenus(sysRg)
+				sys.DeleteMenu(sysRg)
 			}
 		}
 

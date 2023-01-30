@@ -10,6 +10,7 @@ import (
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/dao"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 func (c *Config) DatabaseDsn() string {
@@ -47,7 +48,9 @@ func (c *Config) connectDb() error {
 	}
 
 	// Open database connection.
-	db, err := gorm.Open(mysql.Open(c.DatabaseDsn()), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(c.DatabaseDsn()), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil || db == nil {
 		for i := 1; i <= 12; i++ {
 			db, err = gorm.Open(mysql.Open(c.DatabaseDsn()), &gorm.Config{})

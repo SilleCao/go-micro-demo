@@ -11,46 +11,46 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateRole
-// @Summary 	Create Role
-// @Description Create the new role
-// @Tags 		sys/role
+// CreateMenu
+// @Summary 	Create Menu
+// @Description Create the new menu
+// @Tags 		sys/menu
 // @Produce 	json
-// @Param 		role body dto.RoleRequest true "RoleRequest JSON"
+// @Param 		menu body dto.SysMenuRequest true "SysMenuRequest JSON"
 // @Success		200
-// @Router		/sys/roles [post]
+// @Router		/sys/menus [post]
 // @Security BearerAuth
-func CreateRole(router *gin.RouterGroup) {
-	router.POST("/sys/roles", func(ctx *gin.Context) {
-		var role dto.RoleRequest
-		err := ctx.BindJSON(&role)
+func CreateMenu(router *gin.RouterGroup) {
+	router.POST("/sys/menus", func(ctx *gin.Context) {
+		var menu dto.SysMenuRequest
+		err := ctx.BindJSON(&menu)
 		if err != nil {
 			logger.Err("invalid request body", ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, "invalid request body", err)
 			return
 		}
-		err = service.CreateRole(ctx, &role)
+		err = service.CreateMenu(ctx, &menu)
 		if err != nil {
-			logger.Err("Create role fail", ctx, err)
-			common.SetErrResp(ctx, http.StatusBadRequest, "Create role fail", err)
+			logger.Err("Create menu fail", ctx, err)
+			common.SetErrResp(ctx, http.StatusBadRequest, "Create menu fail", err)
 			return
 		}
-		common.SetScesResp(ctx, &role)
+		common.SetScesResp(ctx, &menu)
 	})
 }
 
-// UpdateRole
-// @Summary 	Update Role
-// @Description Update the role
-// @Tags 		sys/role
+// UpdateMenu
+// @Summary 	Update Menu
+// @Description Update the menu
+// @Tags 		sys/menu
 // @Produce 	json
-// @Param 		id	path	int false "role id"
-// @Param 		role body dto.RoleRequest true "RoleRequest JSON"
+// @Param 		id	path	int false "menu id"
+// @Param 		menu body dto.SysMenuRequest true "SysMenuRequest JSON"
 // @Success		200
-// @Router		/sys/roles [put]
+// @Router		/sys/menus [put]
 // @Security BearerAuth
-func UpdateRole(router *gin.RouterGroup) {
-	router.PUT("/sys/roles/:id", func(ctx *gin.Context) {
+func UpdateMenu(router *gin.RouterGroup) {
+	router.PUT("/sys/menus/:id", func(ctx *gin.Context) {
 		id := ctx.Param("id")
 		aid, err := strconv.Atoi(id)
 		if err != nil {
@@ -58,15 +58,15 @@ func UpdateRole(router *gin.RouterGroup) {
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
 			return
 		}
-		var role dto.RoleRequest
-		err = ctx.BindJSON(&role)
+		var menu dto.SysMenuRequest
+		err = ctx.BindJSON(&menu)
 		if err != nil {
 			logger.Err("invalid request body", ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
 			return
 		}
-		role.ID = int64(aid)
-		err = service.UpdateRole(ctx, &role)
+		menu.ID = int64(aid)
+		err = service.UpdateMenu(ctx, &menu)
 		if err != nil {
 			logger.Err(err.Error(), ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
@@ -76,33 +76,34 @@ func UpdateRole(router *gin.RouterGroup) {
 	})
 }
 
-// GetRoles
-// @Summary 	Get Roles
-// @Description Get the list of Role
-// @Tags 		sys/role
+// GetMenus
+// @Summary 	Get Menus
+// @Description Get the list of Menu
+// @Tags 		sys/menu
 // @Produce 	json
-// @Param 		name	query	string false "role name"
-// @Param 		remark	query	string false "role remark"
+// @Param 		name	query	string false "menu name"
+// @Param 		url		query	string false "menu url"
+// @Param 		pid		query	string false "parent menu id"
 // @Param 		page	query	int false "page number"
 // @Param 		size	query	int false "page size"
 // @Success		200
-// @Router		/sys/roles [get]
+// @Router		/sys/menus [get]
 // @Security BearerAuth
-func GetRoles(router *gin.RouterGroup) {
-	router.GET("/sys/roles", func(ctx *gin.Context) {
+func GetMenus(router *gin.RouterGroup) {
+	router.GET("/sys/menus", func(ctx *gin.Context) {
 		var pagination common.Pagination
 		err := ctx.BindQuery(&pagination)
 		if err != nil {
 			common.SetErrResp(ctx, http.StatusBadRequest, "invaild parameters", err)
 			return
 		}
-		var role dto.RoleRequest
-		err = ctx.BindQuery(&role)
+		var menu dto.SysMenuRequest
+		err = ctx.BindQuery(&menu)
 		if err != nil {
 			common.SetErrResp(ctx, http.StatusBadRequest, "invaild parameters", err)
 			return
 		}
-		p, err := service.GetRoles(ctx, &role, &pagination)
+		p, err := service.GetMenus(ctx, &menu, &pagination)
 		if err != nil {
 			common.SetErrResp(ctx, http.StatusBadRequest, "invaild parameters", err)
 			return
@@ -111,17 +112,17 @@ func GetRoles(router *gin.RouterGroup) {
 	})
 }
 
-// DeleteRole
-// @Summary 	Delete Role
-// @Description Delete Role
-// @Tags 		sys/role
+// DeleteMenu
+// @Summary 	Delete Menu
+// @Description Delete Menu
+// @Tags 		sys/menu
 // @Produce 	json
-// @Param 		id	path	int false "role id"
+// @Param 		id	path	int false "menu id"
 // @Success		200
-// @Router		/sys/roles [delete]
+// @Router		/sys/menus [delete]
 // @Security BearerAuth
-func DeleteRole(router *gin.RouterGroup) {
-	router.DELETE("/sys/roles/:id", func(ctx *gin.Context) {
+func DeleteMenu(router *gin.RouterGroup) {
+	router.DELETE("/sys/menus/:id", func(ctx *gin.Context) {
 		id := ctx.Param("id")
 		aid, err := strconv.Atoi(id)
 		if err != nil {
@@ -129,9 +130,9 @@ func DeleteRole(router *gin.RouterGroup) {
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
 			return
 		}
-		err = service.DeleteRole(ctx, int64(aid))
+		err = service.DeleteMenu(ctx, int64(aid))
 		if err != nil {
-			logger.Err("Delete role fail", ctx, err)
+			logger.Err("Delete menu fail", ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
 			return
 		}

@@ -5,7 +5,7 @@ database:
   port: 3306
   dbName: go-admin
   username: root
-  password: epam_systems
+  password: sille.cn
 
 server:
   # context-path: /go-micro-demo
@@ -13,5 +13,5 @@ server:
 
 redis:
   addr: localhost:6379
-  password: epam_systems
+  password: sille.cn
   db: 0

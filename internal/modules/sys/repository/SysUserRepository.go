@@ -28,7 +28,29 @@ func UpdateUser(ctx *gin.Context, user *model.SysUser) (err error) {
 
 func GetUsers(ctx *gin.Context, user *model.SysUser, page *common.Pagination) (*common.Pagination, error) {
 	su := dao.DbQuery().SysUser
-	result, count, err := su.WithContext(ctx).Where(
+	sdo := su.WithContext(ctx)
+	if len(ctx.Query("username")) > 0 {
+		sdo = sdo.Where(su.Username.Like("%" + user.Username + "%"))
+	}
+	if len(ctx.Query("realName")) > 0 {
+		sdo = sdo.Where(su.RealName.Like("%" + user.RealName + "%"))
+	}
+	if len(ctx.Query("email")) > 0 {
+		sdo = sdo.Where(su.Email.Like("%" + user.Email + "%"))
+	}
+	if len(ctx.Query("mobile")) > 0 {
+		sdo = sdo.Where(su.Username.Like("%" + user.Mobile + "%"))
+	}
+	if len(ctx.Query("gender")) > 0 {
+		sdo = sdo.Where(su.Gender.Eq(user.Gender))
+	}
+	if len(ctx.Query("status")) > 0 {
+		sdo = sdo.Where(su.Status.Eq(user.Status))
+	}
+	if len(ctx.Query("superAdmin")) > 0 {
+		sdo = sdo.Where(su.SuperAdmin.Eq(user.SuperAdmin))
+	}
+	result, count, err := sdo.Where(
 		su.Username.Like("%"+user.Username+"%"),
 		su.RealName.Like("%"+user.Username+"%"),
 		su.Email.Like("%"+user.Username+"%"),

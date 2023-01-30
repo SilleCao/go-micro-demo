@@ -40,22 +40,23 @@ func main() {
 	g.WithJSONTagNameStrategy(nameStrategy)
 	// g.ApplyBasic(g.GenerateAllTable()...)
 
-	// g.GenerateModel("sys_dept")
-	// g.GenerateModel("sys_dict_data")
-	// g.GenerateModel("sys_dict_type")
-	// g.GenerateModel("sys_log_error")
-	// g.GenerateModel("sys_log_login")
-	// g.GenerateModel("sys_log_operation")
-	// g.GenerateModel("sys_menu")
-	// g.GenerateModel("sys_oss")
-	// g.GenerateModel("sys_params")
-	// g.GenerateModel("sys_role")
-	// g.GenerateModel("sys_role_data_scope")
-	// g.GenerateModel("sys_role_menu")
-	// g.GenerateModel("sys_role_user")
-	// g.GenerateModel("sys_user_token")
-	// g.GenerateModel("sys_user")
-	g.ApplyBasic(g.GenerateModel("sys_user"), g.GenerateModel("sys_role"))
+	g.ApplyBasic(
+		// g.GenerateModel("sys_dept"),
+		// g.GenerateModel("sys_dict_data"),
+		// g.GenerateModel("sys_dict_type"),
+		// g.GenerateModel("sys_log_error"),
+		// g.GenerateModel("sys_log_login"),
+		// g.GenerateModel("sys_log_operation"),
+		g.GenerateModel("sys_menu"),
+		// g.GenerateModel("sys_oss"),
+		// g.GenerateModel("sys_params"),
+		g.GenerateModel("sys_role"),
+		// g.GenerateModel("sys_role_data_scope"),
+		// g.GenerateModel("sys_role_menu"),
+		// g.GenerateModel("sys_role_user"),
+		// g.GenerateModel("sys_user_token"),
+		g.GenerateModel("sys_user"),
+	)
 	g.Execute()
 
 }

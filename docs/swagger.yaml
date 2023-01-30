@@ -27,7 +27,31 @@ definitions:
         description: 用户名
         type: string
     type: object
-  dto.RoleRequest:
+  dto.SysMenuRequest:
+    properties:
+      icon:
+        description: 菜单图标
+        type: string
+      name:
+        description: 名称
+        type: string
+      permissions:
+        description: 授权(多个用逗号分隔，如：sys:user:list,sys:user:save)
+        type: string
+      pid:
+        description: 上级ID，一级菜单为0
+        type: integer
+      sort:
+        description: 排序
+        type: integer
+      type:
+        description: 类型   0：菜单   1：按钮
+        type: integer
+      url:
+        description: 菜单URL
+        type: string
+    type: object
+  dto.SysRoleRequest:
     properties:
       deptId:
         description: 部门ID
@@ -118,6 +142,99 @@ paths:
       summary: Generate token
       tags:
       - auth
+  /sys/menus:
+    delete:
+      description: Delete Menu
+      parameters:
+      - description: menu id
+        in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Delete Menu
+      tags:
+      - sys/menu
+    get:
+      description: Get the list of Menu
+      parameters:
+      - description: menu name
+        in: query
+        name: name
+        type: string
+      - description: menu url
+        in: query
+        name: url
+        type: string
+      - description: parent menu id
+        in: query
+        name: pid
+        type: string
+      - description: page number
+        in: query
+        name: page
+        type: integer
+      - description: page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Get Menus
+      tags:
+      - sys/menu
+    post:
+      description: Create the new menu
+      parameters:
+      - description: SysMenuRequest JSON
+        in: body
+        name: menu
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SysMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Create Menu
+      tags:
+      - sys/menu
+    put:
+      description: Update the menu
+      parameters:
+      - description: menu id
+        in: path
+        name: id
+        type: integer
+      - description: SysMenuRequest JSON
+        in: body
+        name: menu
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SysMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Update Menu
+      tags:
+      - sys/menu
   /sys/roles:
     delete:
       description: Delete Role
@@ -168,12 +285,12 @@ paths:
     post:
       description: Create the new role
       parameters:
-      - description: RoleRequest JSON
+      - description: SysRoleRequest JSON
         in: body
         name: role
         required: true
         schema:
-          $ref: '#/definitions/dto.RoleRequest'
+          $ref: '#/definitions/dto.SysRoleRequest'
       produces:
       - application/json
       responses:
@@ -191,12 +308,12 @@ paths:
         in: path
         name: id
         type: integer
-      - description: RoleRequest JSON
+      - description: SysRoleRequest JSON
         in: body
         name: role
         required: true
         schema:
-          $ref: '#/definitions/dto.RoleRequest'
+          $ref: '#/definitions/dto.SysRoleRequest'
       produces:
       - application/json
       responses:

@@ -9,8 +9,8 @@ import (
 	"github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/repository"
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/errors"
 	"github.com/SilleCao/golang/go-micro-demo/pkg/logger"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
 

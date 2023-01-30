@@ -48,6 +48,156 @@ const docTemplate = `{
                 }
             }
         },
+        "/sys/menus": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get the list of Menu",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/menu"
+                ],
+                "summary": "Get Menus",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "menu name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "menu url",
+                        "name": "url",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "parent menu id",
+                        "name": "pid",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update the menu",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/menu"
+                ],
+                "summary": "Update Menu",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "menu id",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "SysMenuRequest JSON",
+                        "name": "menu",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SysMenuRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create the new menu",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/menu"
+                ],
+                "summary": "Create Menu",
+                "parameters": [
+                    {
+                        "description": "SysMenuRequest JSON",
+                        "name": "menu",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SysMenuRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Menu",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/menu"
+                ],
+                "summary": "Delete Menu",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "menu id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/sys/roles": {
             "get": {
                 "security": [
@@ -117,12 +267,12 @@ const docTemplate = `{
                         "in": "path"
                     },
                     {
-                        "description": "RoleRequest JSON",
+                        "description": "SysRoleRequest JSON",
                         "name": "role",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RoleRequest"
+                            "$ref": "#/definitions/dto.SysRoleRequest"
                         }
                     }
                 ],
@@ -148,12 +298,12 @@ const docTemplate = `{
                 "summary": "Create Role",
                 "parameters": [
                     {
-                        "description": "RoleRequest JSON",
+                        "description": "SysRoleRequest JSON",
                         "name": "role",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.RoleRequest"
+                            "$ref": "#/definitions/dto.SysRoleRequest"
                         }
                     }
                 ],
@@ -434,7 +584,40 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.RoleRequest": {
+        "dto.SysMenuRequest": {
+            "type": "object",
+            "properties": {
+                "icon": {
+                    "description": "菜单图标",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "名称",
+                    "type": "string"
+                },
+                "permissions": {
+                    "description": "授权(多个用逗号分隔，如：sys:user:list,sys:user:save)",
+                    "type": "string"
+                },
+                "pid": {
+                    "description": "上级ID，一级菜单为0",
+                    "type": "integer"
+                },
+                "sort": {
+                    "description": "排序",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "类型   0：菜单   1：按钮",
+                    "type": "integer"
+                },
+                "url": {
+                    "description": "菜单URL",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.SysRoleRequest": {
             "type": "object",
             "properties": {
                 "deptId": {

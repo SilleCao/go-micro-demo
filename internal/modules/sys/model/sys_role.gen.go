@@ -12,14 +12,14 @@ const TableNameSysRole = "sys_role"
 
 // SysRole mapped from table <sys_role>
 type SysRole struct {
-	ID         int64     `gorm:"column:id;primaryKey" json:"id"`       // id
-	Name       string    `gorm:"column:name" json:"name"`              // 角色名称
-	Remark     string    `gorm:"column:remark" json:"remark"`          // 备注
-	DeptID     int64     `gorm:"column:dept_id" json:"deptId"`         // 部门ID
-	Creator    int64     `gorm:"column:creator" json:"creator"`        // 创建者
-	CreateDate time.Time `gorm:"column:create_date" json:"createDate"` // 创建时间
-	Updater    int64     `gorm:"column:updater" json:"updater"`        // 更新者
-	UpdateDate time.Time `gorm:"column:update_date" json:"updateDate"` // 更新时间
+	ID         int64     `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"` // id
+	Name       string    `gorm:"column:name" json:"name"`                           // 角色名称
+	Remark     string    `gorm:"column:remark" json:"remark"`                       // 备注
+	DeptID     int64     `gorm:"column:dept_id" json:"deptId"`                      // 部门ID
+	Creator    int64     `gorm:"column:creator" json:"creator"`                     // 创建者
+	CreateDate time.Time `gorm:"column:create_date" json:"createDate"`              // 创建时间
+	Updater    int64     `gorm:"column:updater" json:"updater"`                     // 更新者
+	UpdateDate time.Time `gorm:"column:update_date" json:"updateDate"`              // 更新时间
 }
 
 // TableName SysRole's table name

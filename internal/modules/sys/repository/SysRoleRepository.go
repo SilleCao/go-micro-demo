@@ -26,12 +26,19 @@ func UpdateRole(ctx *gin.Context, role *model.SysRole) (err error) {
 }
 
 func GetRoles(ctx *gin.Context, role *model.SysRole, page *common.Pagination) (*common.Pagination, error) {
+
 	sr := dao.DbQuery().SysRole
-	result, count, err := sr.WithContext(ctx).Where(
-		sr.Name.Like("%"+role.Name+"%"),
-		sr.Remark.Like("%"+role.Remark+"%"),
-		sr.DeptID.Eq(role.DeptID),
-	).Order(sr.CreateDate.Desc()).FindByPage(page.GetOffset(), page.GetSize())
+	sdo := sr.WithContext(ctx)
+	if len(ctx.Query("name")) > 0 {
+		sdo = sdo.Where(sr.Name.Like("%" + role.Name + "%"))
+	}
+	if len(ctx.Query("remark")) > 0 {
+		sdo = sdo.Where(sr.Remark.Like("%" + role.Remark + "%"))
+	}
+	if len(ctx.Query("deptId")) > 0 {
+		sdo = sdo.Where(sr.DeptID.Eq(role.DeptID))
+	}
+	result, count, err := sdo.Order(sr.CreateDate.Desc()).FindByPage(page.GetOffset(), page.GetSize())
 	page.Content = result
 	page.TotalContent = count
 	return page, err

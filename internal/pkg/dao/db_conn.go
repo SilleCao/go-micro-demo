@@ -8,6 +8,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 // Supported test databases.
@@ -48,7 +49,13 @@ func (g *DbConn) Db() *gorm.DB {
 
 // Open creates a new gorm db connection.
 func (g *DbConn) Open() {
-	db, err := gorm.Open(mysql.Open(g.Dsn), &gorm.Config{})
+	// if HasDbProvider() {
+	// 	g.db = dbConn.Db()
+	// 	return
+	// }
+	db, err := gorm.Open(mysql.Open(g.Dsn), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 
 	if err != nil || db == nil {
 		for i := 1; i <= 12; i++ {
@@ -66,8 +73,6 @@ func (g *DbConn) Open() {
 			log.Fatal(err)
 		}
 	}
-
-	// db.LogMode(false)
 	// db.SetLogger(log)
 	// db.DB().SetMaxIdleConns(4)
 	// db.DB().SetMaxOpenConns(256)

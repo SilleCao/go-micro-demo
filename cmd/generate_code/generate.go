@@ -41,7 +41,7 @@ func main() {
 	// g.ApplyBasic(g.GenerateAllTable()...)
 
 	g.ApplyBasic(
-		// g.GenerateModel("sys_dept"),
+		g.GenerateModel("sys_dept"),
 		// g.GenerateModel("sys_dict_data"),
 		// g.GenerateModel("sys_dict_type"),
 		// g.GenerateModel("sys_log_error"),

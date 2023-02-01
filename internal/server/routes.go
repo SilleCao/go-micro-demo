@@ -33,6 +33,11 @@ func RegisterRoutes(router *gin.Engine, conf *config.Config) {
 				sys.UpdateMenu(sysRg)
 				sys.GetMenus(sysRg)
 				sys.DeleteMenu(sysRg)
+
+				sys.CreateDept(sysRg)
+				sys.UpdateDept(sysRg)
+				sys.GetDepts(sysRg)
+				sys.DeleteDept(sysRg)
 			}
 		}
 

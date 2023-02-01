@@ -15,9 +15,9 @@ func CreateUser(ctx *gin.Context, user *model.SysUser) (err error) {
 	return dao.DbQuery().SysUser.WithContext(ctx).Create(user)
 }
 
-func UpdateUser(ctx *gin.Context, user *model.SysUser) (err error) {
+func UpdateUser(ctx *gin.Context, m map[string]interface{}) (err error) {
 	su := dao.DbQuery().SysUser
-	rstInfo, err := su.WithContext(ctx).Where(su.ID.Eq(user.ID)).Updates(&user)
+	rstInfo, err := su.WithContext(ctx).Where(su.ID.Eq(m["id"].(int64))).Updates(&m)
 	if rstInfo.RowsAffected == 0 {
 		err = errors.New("no rows were updated")
 		logger.Err("Update failed", ctx, err)

@@ -9,7 +9,6 @@ import (
 	"github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/model"
 	repo "github.com/SilleCao/golang/go-micro-demo/internal/modules/sys/repository"
 	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/common"
-	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/errors"
 	"github.com/SilleCao/golang/go-micro-demo/pkg/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
@@ -39,14 +38,9 @@ func CreateUser(ctx *gin.Context, userReq *dto.CreateSysUserRequest) error {
 	return repo.CreateUser(ctx, &user)
 }
 
-func UpdateUser(ctx *gin.Context, userReq *dto.UpdateSysUserRequest) error {
-	user := model.SysUser{}
-	copier.Copy(&user, userReq)
-
-	su, _ := GetLoginUser(ctx)
-	user.UpdateDate = time.Now()
-	user.Updater = su.ID
-	return repo.UpdateUser(ctx, &user)
+func UpdateUser(ctx *gin.Context, m map[string]interface{}) error {
+	consolidateData(ctx, m, model.SysUser{})
+	return repo.UpdateUser(ctx, m)
 }
 
 func GetUsers(ctx *gin.Context, userReq *dto.GetSysUsersRequest, pagination *common.Pagination) (*common.Pagination, error) {
@@ -74,13 +68,11 @@ func GetUserById(ctx *gin.Context, id int64) (*dto.SysUserResponse, error) {
 	return &sur, nil
 }
 
-func UpdateUserStatus(ctx *gin.Context, uerDto dto.UpdateSysUserStatusRequest) error {
-	if !CheckLogUserIsAdmin(ctx) {
-		return errors.NewUnauthorizedErr("only super admin can lock user", 401)
-	}
-	user := dto.UpdateSysUserRequest{}
-	copier.Copy(&user, uerDto)
-	return UpdateUser(ctx, &user)
+func UpdateUserStatus(ctx *gin.Context, userReq map[string]interface{}) error {
+	// if !CheckLogUserIsAdmin(ctx) {
+	// 	return errors.NewUnauthorizedErr("only super admin can lock user", 401)
+	// }
+	return UpdateUser(ctx, userReq)
 }
 
 func CheckLogUserIsAdmin(ctx *gin.Context) bool {

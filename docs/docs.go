@@ -636,6 +636,9 @@ const docTemplate = `{
         },
         "dto.UpdateSysUserRequest": {
             "type": "object",
+            "required": [
+                "id"
+            ],
             "properties": {
                 "deptId": {
                     "description": "部门ID",
@@ -662,7 +665,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "realName": {
-                    "description": "姓名",
+                    "description": "Username   string ` + "`" + `json:\"username\" form:\"username\"` + "`" + `        // 用户名",
                     "type": "string"
                 },
                 "status": {
@@ -672,10 +675,6 @@ const docTemplate = `{
                 "superAdmin": {
                     "description": "状态 -1 Deteled 0：停用   1：正常",
                     "type": "integer"
-                },
-                "username": {
-                    "description": "用户名",
-                    "type": "string"
                 }
             }
         },

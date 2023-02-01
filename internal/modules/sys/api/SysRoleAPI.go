@@ -58,15 +58,14 @@ func UpdateRole(router *gin.RouterGroup) {
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
 			return
 		}
-		var role dto.SysRoleRequest
-		err = ctx.BindJSON(&role)
+		m, err := common.GetReqBodyAsMap(ctx)
 		if err != nil {
 			logger.Err("invalid request body", ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
 			return
 		}
-		role.ID = int64(aid)
-		err = service.UpdateRole(ctx, &role)
+		m["id"] = int64(aid)
+		err = service.UpdateRole(ctx, m)
 		if err != nil {
 			logger.Err(err.Error(), ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)

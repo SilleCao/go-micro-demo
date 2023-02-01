@@ -22,13 +22,9 @@ func CreateRole(ctx *gin.Context, role *dto.SysRoleRequest) error {
 	return repo.CreateRole(ctx, &sr)
 }
 
-func UpdateRole(ctx *gin.Context, role *dto.SysRoleRequest) error {
-	sr := model.SysRole{}
-	copier.Copy(&sr, role)
-	su, _ := GetLoginUser(ctx)
-	sr.UpdateDate = time.Now()
-	sr.Updater = su.ID
-	return repo.UpdateRole(ctx, &sr)
+func UpdateRole(ctx *gin.Context, m map[string]interface{}) error {
+	consolidateData(ctx, m, model.SysRole{})
+	return repo.UpdateRole(ctx, m)
 }
 
 func GetRoles(ctx *gin.Context, role *dto.SysRoleRequest, page *common.Pagination) (*common.Pagination, error) {

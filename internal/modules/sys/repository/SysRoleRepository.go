@@ -14,9 +14,9 @@ func CreateRole(ctx *gin.Context, role *model.SysRole) (err error) {
 	return dao.DbQuery().SysRole.WithContext(ctx).Create(role)
 }
 
-func UpdateRole(ctx *gin.Context, role *model.SysRole) (err error) {
+func UpdateRole(ctx *gin.Context, m map[string]interface{}) (err error) {
 	sr := dao.DbQuery().SysRole
-	ri, err := sr.WithContext(ctx).Where(sr.ID.Eq(role.ID)).Updates(role)
+	ri, err := sr.WithContext(ctx).Where(sr.ID.Eq(m["id"].(int64))).Updates(m)
 	if ri.RowsAffected == 0 {
 		err = errors.New("no rows were updated")
 		logger.Err("Update failed", ctx, err)

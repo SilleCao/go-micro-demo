@@ -14,9 +14,9 @@ func CreateMenu(ctx *gin.Context, menu *model.SysMenu) (err error) {
 	return dao.DbQuery().SysMenu.WithContext(ctx).Create(menu)
 }
 
-func UpdateMenu(ctx *gin.Context, menu *model.SysMenu) (err error) {
+func UpdateMenu(ctx *gin.Context, m map[string]interface{}) (err error) {
 	sm := dao.DbQuery().SysMenu
-	ri, err := sm.WithContext(ctx).Where(sm.ID.Eq(menu.ID)).Updates(menu)
+	ri, err := sm.WithContext(ctx).Where(sm.ID.Eq(m["id"].(int64))).Updates(m)
 	if ri.RowsAffected == 0 {
 		err = errors.New("no rows were updated")
 		logger.Err("Update failed", ctx, err)

@@ -1,19 +1,18 @@
-package tools
+package common
 
 import (
 	"errors"
 	"strconv"
 
-	"github.com/SilleCao/golang/go-micro-demo/internal/pkg/common"
 	"github.com/asaskevich/govalidator"
 )
 
-func GetPagination(page string, size string) (*common.Pagination, error) {
+func GetPagination(page string, size string) (*Pagination, error) {
 	return GetPaginationWithSort(page, size, "")
 }
 
-func GetPaginationWithSort(page string, size string, sort string) (*common.Pagination, error) {
-	pagination := &common.Pagination{
+func GetPaginationWithSort(page string, size string, sort string) (*Pagination, error) {
+	pagination := &Pagination{
 		Sort: sort,
 	}
 	if !govalidator.IsInt(page) {

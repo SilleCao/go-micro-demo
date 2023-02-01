@@ -41,6 +41,150 @@
                 }
             }
         },
+        "/sys/depts": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Get the list of Dept",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/dept"
+                ],
+                "summary": "Get Depts",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "dept name",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "parent dept id",
+                        "name": "pid",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page size",
+                        "name": "size",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update the dept",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/dept"
+                ],
+                "summary": "Update Dept",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "dept id",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "SysDeptRequest JSON",
+                        "name": "dept",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SysDeptRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create the new dept",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/dept"
+                ],
+                "summary": "Create Dept",
+                "parameters": [
+                    {
+                        "description": "SysDeptRequest JSON",
+                        "name": "dept",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SysDeptRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete Dept",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "sys/dept"
+                ],
+                "summary": "Delete Dept",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "dept id",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/sys/menus": {
             "get": {
                 "security": [
@@ -574,6 +718,27 @@
                 "username": {
                     "description": "用户名",
                     "type": "string"
+                }
+            }
+        },
+        "dto.SysDeptRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "部门名称",
+                    "type": "string"
+                },
+                "pid": {
+                    "description": "上级ID",
+                    "type": "integer"
+                },
+                "pids": {
+                    "description": "所有上级ID，用逗号分开",
+                    "type": "string"
+                },
+                "sort": {
+                    "description": "排序",
+                    "type": "integer"
                 }
             }
         },

@@ -27,6 +27,21 @@ definitions:
         description: 用户名
         type: string
     type: object
+  dto.SysDeptRequest:
+    properties:
+      name:
+        description: 部门名称
+        type: string
+      pid:
+        description: 上级ID
+        type: integer
+      pids:
+        description: 所有上级ID，用逗号分开
+        type: string
+      sort:
+        description: 排序
+        type: integer
+    type: object
   dto.SysMenuRequest:
     properties:
       icon:
@@ -142,6 +157,95 @@ paths:
       summary: Generate token
       tags:
       - auth
+  /sys/depts:
+    delete:
+      description: Delete Dept
+      parameters:
+      - description: dept id
+        in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Delete Dept
+      tags:
+      - sys/dept
+    get:
+      description: Get the list of Dept
+      parameters:
+      - description: dept name
+        in: query
+        name: name
+        type: string
+      - description: parent dept id
+        in: query
+        name: pid
+        type: string
+      - description: page number
+        in: query
+        name: page
+        type: integer
+      - description: page size
+        in: query
+        name: size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Get Depts
+      tags:
+      - sys/dept
+    post:
+      description: Create the new dept
+      parameters:
+      - description: SysDeptRequest JSON
+        in: body
+        name: dept
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SysDeptRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Create Dept
+      tags:
+      - sys/dept
+    put:
+      description: Update the dept
+      parameters:
+      - description: dept id
+        in: path
+        name: id
+        type: integer
+      - description: SysDeptRequest JSON
+        in: body
+        name: dept
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SysDeptRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - BearerAuth: []
+      summary: Update Dept
+      tags:
+      - sys/dept
   /sys/menus:
     delete:
       description: Delete Menu

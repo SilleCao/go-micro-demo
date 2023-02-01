@@ -22,13 +22,9 @@ func CreateMenu(ctx *gin.Context, menu *dto.SysMenuRequest) error {
 	return repo.CreateMenu(ctx, &sm)
 }
 
-func UpdateMenu(ctx *gin.Context, menu *dto.SysMenuRequest) error {
-	sm := model.SysMenu{}
-	copier.Copy(&sm, menu)
-	su, _ := GetLoginUser(ctx)
-	sm.UpdateDate = time.Now()
-	sm.Updater = su.ID
-	return repo.UpdateMenu(ctx, &sm)
+func UpdateMenu(ctx *gin.Context, m map[string]interface{}) error {
+	consolidateData(ctx, m, model.SysMenu{})
+	return repo.UpdateMenu(ctx, m)
 }
 
 func GetMenus(ctx *gin.Context, menu *dto.SysMenuRequest, page *common.Pagination) (*common.Pagination, error) {

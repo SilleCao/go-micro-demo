@@ -1,8 +1,8 @@
 package dto
 
 type UpdateSysUserRequest struct {
-	ID         int64  `json:"id"`                           // id
-	Username   string `json:"username" form:"username" `    // 用户名
+	ID int64 `json:"id" form:"id" binding:"required"` // id
+	// Username   string `json:"username" form:"username"`        // 用户名
 	RealName   string `json:"realName" form:"realName"`     // 姓名
 	HeadURL    string `json:"headUrl" form:"headUrl"`       // 头像
 	Gender     int32  `json:"gender" form:"gender"`         // 性别   0：男   1：女    2：保密

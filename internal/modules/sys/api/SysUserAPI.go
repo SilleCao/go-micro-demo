@@ -48,14 +48,13 @@ func CreateUser(router *gin.RouterGroup) {
 // @Security 	BearerAuth
 func UpdateUser(router *gin.RouterGroup) {
 	router.PUT("/sys/users", func(ctx *gin.Context) {
-		var user dto.UpdateSysUserRequest
-		err := ctx.BindJSON(&user)
+		m, err := common.GetReqBodyAsMap(ctx)
 		if err != nil {
 			logger.Err(err.Error(), ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, "invalid parameters", err)
 			return
 		}
-		err = service.UpdateUser(ctx, &user)
+		err = service.UpdateUser(ctx, m)
 		if err != nil {
 			logger.Err(err.Error(), ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, "update user fail", err)
@@ -139,13 +138,13 @@ func GetUserById(router *gin.RouterGroup) {
 // @Security 	BearerAuth
 func UpdateUserStatus(router *gin.RouterGroup) {
 	router.PUT("/sys/users/status", func(ctx *gin.Context) {
-		var user dto.UpdateSysUserStatusRequest
-		err := ctx.BindJSON(&user)
+		m, err := common.GetReqBodyAsMap(ctx)
 		if err != nil {
-			common.SetErrResp(ctx, http.StatusBadRequest, "invaild parameters", err)
+			logger.Err(err.Error(), ctx, err)
+			common.SetErrResp(ctx, http.StatusBadRequest, "invalid parameters", err)
 			return
 		}
-		err = service.UpdateUserStatus(ctx, user)
+		err = service.UpdateUserStatus(ctx, m)
 		if err != nil {
 			logger.Err("Update user's status fail", ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, "Update user's status fail", err)

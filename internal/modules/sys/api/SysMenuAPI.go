@@ -58,15 +58,14 @@ func UpdateMenu(router *gin.RouterGroup) {
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
 			return
 		}
-		var menu dto.SysMenuRequest
-		err = ctx.BindJSON(&menu)
+		m, err := common.GetReqBodyAsMap(ctx)
 		if err != nil {
 			logger.Err("invalid request body", ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
 			return
 		}
-		menu.ID = int64(aid)
-		err = service.UpdateMenu(ctx, &menu)
+		m["id"] = int64(aid)
+		err = service.UpdateMenu(ctx, m)
 		if err != nil {
 			logger.Err(err.Error(), ctx, err)
 			common.SetErrResp(ctx, http.StatusBadRequest, err.Error(), err)
